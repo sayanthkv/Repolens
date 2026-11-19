@@ -1,0 +1,21 @@
+{
+  "name": "repolens",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,WEB\" -c \"cyan,green\" \"npm run dev --workspace=@repolens/server\" \"npm run dev --workspace=@repolens/web\"",
+    "build": "npm run build --workspace=@repolens/shared && npm run build --workspace=@repolens/server && npm run build --workspace=@repolens/web",
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.16.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.13.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}
