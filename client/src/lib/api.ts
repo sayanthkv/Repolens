@@ -5,12 +5,34 @@ export const API_BASE_URL = (
   'http://localhost:4000'
 ).replace(/\/+$/, '');
 
+let memoryCsrfToken: string | null = null;
+
+export function setCsrfToken(token: string | null): void {
+  memoryCsrfToken = token;
+}
+
 export function getCsrfToken(): string | null {
+  if (memoryCsrfToken) return memoryCsrfToken;
   if (typeof document === 'undefined') return null;
   const match = document.cookie
     .split('; ')
     .find((row) => row.startsWith('repolens_csrf='));
   return match ? decodeURIComponent(match.split('=')[1] ?? '') : null;
+}
+
+async function hydrateCsrfToken(): Promise<string | null> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/me`, { credentials: 'include' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { csrfToken?: string };
+    if (data?.csrfToken) {
+      memoryCsrfToken = data.csrfToken;
+      return data.csrfToken;
+    }
+  } catch {
+    // ignore hydration errors
+  }
+  return null;
 }
 
 export class ApiClientError extends Error {
@@ -36,7 +58,7 @@ export async function apiFetch<T>(
   }
 
   if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
-    const csrf = getCsrfToken();
+    const csrf = getCsrfToken() || (await hydrateCsrfToken());
     if (csrf) {
       headers.set('X-CSRF-Token', csrf);
     }
@@ -48,6 +70,10 @@ export async function apiFetch<T>(
     headers,
     credentials: 'include',
   });
+
+  if (path === '/api/auth/logout' && response.ok) {
+    memoryCsrfToken = null;
+  }
 
   if (!response.ok) {
     let code = 'REQUEST_FAILED';
@@ -66,5 +92,9 @@ export async function apiFetch<T>(
     return undefined as T;
   }
 
-  return response.json() as Promise<T>;
+  const data = (await response.json()) as T & { csrfToken?: string };
+  if (data && typeof data === 'object' && typeof data.csrfToken === 'string') {
+    memoryCsrfToken = data.csrfToken;
+  }
+  return data;
 }

@@ -178,6 +178,22 @@ export function logout(req: Request, res: Response): void {
 
 export function getMe(req: Request, res: Response): void {
   const user = req.user!;
+  let csrfToken =
+    typeof req.cookies?.[CSRF_COOKIE_NAME] === 'string' && req.cookies[CSRF_COOKIE_NAME]
+      ? req.cookies[CSRF_COOKIE_NAME]
+      : '';
+
+  if (!csrfToken) {
+    csrfToken = generateRandomToken(24);
+    res.cookie(CSRF_COOKIE_NAME, csrfToken, {
+      httpOnly: false,
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+      maxAge: SESSION_MAX_AGE_MS,
+      path: '/',
+    });
+  }
+
   res.json({
     id: String(user._id),
     githubId: user.githubId,
@@ -185,5 +201,6 @@ export function getMe(req: Request, res: Response): void {
     avatarUrl: user.avatarUrl,
     email: user.email ?? null,
     createdAt: user.createdAt.toISOString(),
+    csrfToken,
   });
 }
