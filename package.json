@@ -1,10 +1,12 @@
 {
   "name": "repolens",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": ["client", "server", "shared"],
   "scripts": {
-    "dev": "concurrently -n \"SERVER,WEB\" -c \"cyan,green\" \"npm run dev --workspace=@repolens/server\" \"npm run dev --workspace=@repolens/web\"",
-    "build": "npm run build --workspace=@repolens/shared && npm run build --workspace=@repolens/server && npm run build --workspace=@repolens/web",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"cyan,green\" \"npm run dev --workspace=@repolens/server\" \"npm run dev --workspace=@repolens/client\"",
+    "build": "npm run build --workspace=@repolens/shared && npm run build --workspace=@repolens/server && npm run build --workspace=@repolens/client",
+    "start": "node server/dist/index.js",
+    "test": "npm run test --workspace=@repolens/server",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\""
   },

@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-build:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Test Suite
+        run: npm run test
+        env:
+          NODE_ENV: test
+          MONGODB_URI: mongodb://localhost:27017/test
+          GITHUB_CLIENT_ID: test_id
+          GITHUB_CLIENT_SECRET: test_secret
+          GITHUB_OAUTH_CALLBACK_URL: http://localhost:4000/api/auth/github/callback
+          SESSION_SECRET: test_session_secret_at_least_32_characters_long_1234
+          TOKEN_ENCRYPTION_KEY: RE5mhsCNc2bqNJPG3X3B79RmS5iG9rbdOpDeWqe7iXI=
+          WEBHOOK_BASE_URL: http://localhost:4000
+          LLM_API_KEY: test_key
+          LLM_MODEL: gemini-3.8-flash
+
+      - name: Build All Workspaces
+        run: npm run build

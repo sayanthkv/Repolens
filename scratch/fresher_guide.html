@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RepoLens — Fresher Interview Cheat Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 10.5pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    border-bottom: 3px solid #3b82f6;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+  }
+
+  .tagline {
+    font-size: 11pt;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1d4ed8;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    border-left: 4px solid #3b82f6;
+    padding-left: 10px;
+  }
+
+  p {
+    margin: 0 0 10px 0;
+  }
+
+  ul, ol {
+    margin: 0 0 14px 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  .box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 14px 0;
+  }
+
+  .script-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 14px 0;
+  }
+
+  .script-title {
+    font-weight: 700;
+    color: #1e40af;
+    font-size: 10pt;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .script-text {
+    font-size: 10pt;
+    color: #1e293b;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .q-box {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 16px;
+    page-break-inside: avoid;
+  }
+
+  .q-title {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 11pt;
+    margin-bottom: 8px;
+  }
+
+  .q-ans {
+    color: #334155;
+    font-size: 10pt;
+  }
+
+  .q-ans strong {
+    color: #0f172a;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    background: #f1f5f9;
+    padding: 2px 5px;
+    border-radius: 4px;
+    color: #0f172a;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🛡️ RepoLens — Fresher Interview Guide</h1>
+  <div class="tagline">Simple, Plain-English Answers &amp; Project Explanation for Placements</div>
+</div>
+
+<h2>1. What is RepoLens in Simple Words? (The Elevator Pitch)</h2>
+<p>
+Imagine you are writing an essay in Microsoft Word, and <strong>Grammarly</strong> underlines your grammar mistakes and gives you a 1-click button to fix them.
+</p>
+<p>
+<strong>RepoLens is essentially Grammarly, but for Code Security!</strong>
+</p>
+<p>
+When developers write code and upload it to GitHub, they often make dangerous mistakes by accident:
+</p>
+<ul>
+  <li>They accidentally leave real <strong>passwords or API keys</strong> in their code.</li>
+  <li>They install old <strong>npm packages</strong> that have known security bugs (hackers can exploit them).</li>
+  <li>They write unsafe JavaScript code (like passing user inputs directly into terminal commands).</li>
+</ul>
+<p>
+<strong>RepoLens connects to their GitHub repository, scans all their files, and:</strong>
+</p>
+<ol>
+  <li>Shows a <strong>Health Score from 0 to 100</strong> (like your code's fitness score).</li>
+  <li>Explains each mistake in <strong>simple English</strong> (no confusing jargon).</li>
+  <li>Provides a <strong>green "Safe Fix"</strong> with a <strong>1-click button</strong> that creates a Pull Request on GitHub to fix it automatically!</li>
+</ol>
+
+<div class="script-box">
+  <div class="script-title">🗣️ Exact Script: When the Interviewer asks "Tell me about your project"</div>
+  <div class="script-text">
+    "Sir, my project is called RepoLens. It is a full-stack MERN web application that helps developers secure their code. When a developer connects their GitHub repository, RepoLens scans the code for leaked secrets, vulnerable dependencies, and unsafe coding patterns. It gives the repository a security score from 0 to 100, uses AI to explain the security risk in plain English, and even allows developers to fix the bug with a single click by automatically opening a Pull Request on GitHub. I built the frontend with React and Vite, the backend with Node.js and Express, and used MongoDB to store scans, findings, and user data."
+  </div>
+</div>
+
+<h2>2. The Tech Stack (What Did You Use and Why?)</h2>
+<ul>
+  <li><strong>React (with Vite &amp; Tailwind CSS):</strong> Used for the frontend user interface. Vite makes the app build super fast. I designed it completely in dark mode with responsive charts and clean security cards.</li>
+  <li><strong>Node.js &amp; Express:</strong> Used for the backend REST API. It handles GitHub OAuth authentication, talks to the GitHub API, and runs the security scans.</li>
+  <li><strong>MongoDB &amp; Mongoose:</strong> Used to store user profiles, connected repos, scan history, and security findings.</li>
+  <li><strong>Socket.io (WebSockets):</strong> Used to show a live progress bar (0% to 100%) on the screen while a scan is running without needing to refresh the page.</li>
+  <li><strong>AI (Claude / Gemini):</strong> Used to read the vulnerable line of code, explain why it is dangerous in normal words, and write the corrected code.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>3. The 3 Big Things RepoLens Scans For</h2>
+
+<div class="box">
+  <strong>1. Leaked Secrets (Passwords / API Keys) 🔑</strong><br>
+  Developers sometimes commit <code>const STRIPE_KEY = "sk_live_12345..."</code> into GitHub. Hackers use bots to steal these keys within seconds. RepoLens scans files for secret patterns and high randomness (entropy) and flags them immediately.
+</div>
+
+<div class="box">
+  <strong>2. Vulnerable Packages (CVEs) 📦</strong><br>
+  Just like old Android phones have security vulnerabilities, old npm libraries have known bugs. RepoLens checks <code>package.json</code> against the open-source security database (OSV) and warns you if an installed package is unsafe.
+</div>
+
+<div class="box">
+  <strong>3. Dangerous Code Patterns (e.g. Command Injection) 🛡️</strong><br>
+  If someone writes <code>execSync('taskkill /PID ' + pid)</code>, an attacker could send malicious input and take over the server. RepoLens detects this pattern and recommends using safe functions like <code>execFileSync</code> with separate arguments.
+</div>
+
+<h2>4. Top 8 Interview Questions &amp; Exact Answers for Freshers</h2>
+
+<div class="q-box">
+  <div class="q-title">Q1: What was your role in this project?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "I worked as a Full Stack developer on this project. I built the React frontend UI with dark mode, designed the Express REST APIs, set up GitHub OAuth login, and built the background scan worker in Node.js that evaluates code files and saves findings into MongoDB."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q2: How does the user log in? What authentication did you use?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "We use <strong>GitHub OAuth 2.0</strong>. The user clicks 'Login with GitHub', approves access, and GitHub redirects back to our server with an authorization code. Our server exchanges this code for an access token, encrypts the token using AES-256 before saving it in MongoDB, and issues a secure HTTP-only cookie session for the user."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q3: How does the 1-click "Create Fix PR" feature work?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "When the user clicks 'Create Fix PR', our backend uses the user's GitHub token to call GitHub's API. It creates a new branch, replaces the bad code with the AI's safe fix, commits the file, and opens a Pull Request on GitHub. The user gets a link to merge the PR immediately."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q4: Why did you use MongoDB instead of SQL (MySQL/PostgreSQL)?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "Because security findings, SBOMs, and repository summaries have flexible, nested structures. A scan can have 0 findings or 50 findings with different attributes. MongoDB's JSON-like document model allowed us to store and query these nested findings very naturally without needing complex SQL JOIN tables."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q5: What is the "Security Score" and how is it calculated?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "Every repository starts with a perfect score of 100. For each Critical vulnerability, we deduct 25 points; for High, 15 points; for Medium, 5 points; and for Low, 2 points. The final score stays between 0 and 100. If the user marks an issue as 'Resolved' or 'Ignored', the score recalculates instantly."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q6: What is "Security Regression"?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "Regression means your code got worse. For example, if your repository had a score of 90 on Monday, but after a new commit on Tuesday the score dropped to 70 because someone pushed a leaked API key, RepoLens detects this score drop and shows a warning banner saying: 'Security Regression Detected: Score dropped by 20 points'."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q7: What is an SBOM? (If the interviewer asks)</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "SBOM stands for Software Bill of Materials. It is like an ingredients list on a food packet, but for software. It lists every npm package, its version, and its open-source license (like MIT or Apache) in a standard format called CycloneDX so companies know what is inside their code."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q8: What challenge did you face while building this and how did you solve it?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "One big challenge was keeping the scans fast and responsive without freezing the server. Initially, running scans on large repos blocked other API requests. We solved this by building an asynchronous background queue in Node.js. The server immediately returns a 'Scan Queued' response to the user, runs the scan in the background, and uses WebSockets (Socket.io) to push real-time progress updates to the frontend."
+  </div>
+</div>
+
+<h2>5. Golden Tips for Your Interview</h2>
+<ul>
+  <li><strong>Keep it simple:</strong> Never try to sound overly complex. Explain things like you are explaining them to a friend. Interviewers love clear thinkers.</li>
+  <li><strong>Highlight the user benefit:</strong> Always emphasize that RepoLens doesn't just find problems—it <strong>fixes them</strong> with 1-click Pull Requests and explains them in plain English.</li>
+  <li><strong>Be proud of the tech stack:</strong> MERN (React, Node, Express, MongoDB) is the most sought-after full-stack combination for freshers. You know how frontend and backend talk to each other!</li>
+</ul>
+
+</body>
+</html>

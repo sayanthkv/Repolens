@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RepoLens — Master Project &amp; Technical Interview Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  @page {
+    size: A4;
+    margin: 1.8cm 1.5cm 1.8cm 1.5cm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    line-height: 1.6;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cover-page {
+    page-break-after: always;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 20px;
+    border-left: 6px solid #2563eb;
+  }
+
+  .cover-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 9pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+
+  .cover-title {
+    font-size: 32pt;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.15;
+    margin: 0 0 16px 0;
+  }
+
+  .cover-subtitle {
+    font-size: 14pt;
+    color: #475569;
+    font-weight: 400;
+    max-width: 600px;
+    line-height: 1.5;
+    margin: 0 0 40px 0;
+  }
+
+  .cover-meta {
+    margin-top: 40px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+    width: 100%;
+    font-size: 9.5pt;
+    color: #64748b;
+  }
+
+  .cover-meta strong {
+    color: #0f172a;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin-top: 28px;
+    margin-bottom: 16px;
+    page-break-after: avoid;
+  }
+
+  h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 22px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #334155;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    page-break-after: avoid;
+  }
+
+  p {
+    margin: 0 0 12px 0;
+    color: #334155;
+  }
+
+  ul, ol {
+    margin: 0 0 14px 0;
+    padding-left: 22px;
+    color: #334155;
+  }
+
+  li {
+    margin-bottom: 5px;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5pt;
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 5px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+  }
+
+  pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: hidden;
+    line-height: 1.45;
+    margin: 0 0 16px 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #3b82f6;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 16px 0;
+    font-size: 9.5pt;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    color: #1d4ed8;
+    margin-bottom: 4px;
+  }
+
+  .callout-warning {
+    border-left-color: #ef4444;
+    background: #fef2f2;
+  }
+  .callout-warning .callout-title {
+    color: #b91c1c;
+  }
+
+  .callout-success {
+    border-left-color: #10b981;
+    background: #f0fdf4;
+  }
+  .callout-success .callout-title {
+    color: #047857;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px 0;
+    font-size: 8.5pt;
+  }
+
+  th {
+    background: #f8fafc;
+    color: #0f172a;
+    font-weight: 700;
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+  }
+
+  td {
+    padding: 8px 10px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  .qa-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    page-break-inside: avoid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .qa-question {
+    font-weight: 700;
+    font-size: 10.5pt;
+    color: #1e293b;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .qa-badge {
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .qa-answer {
+    color: #334155;
+    font-size: 9.5pt;
+    line-height: 1.55;
+  }
+
+  .qa-answer strong {
+    color: #0f172a;
+  }
+
+  .grid-2 {
+    display: flex;
+    gap: 16px;
+  }
+
+  .grid-2 > div {
+    flex: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER PAGE ================= -->
+<div class="cover-page">
+  <div class="cover-badge">Complete Technical Interview &amp; Architecture Manual</div>
+  <h1 class="cover-title">RepoLens</h1>
+  <div class="cover-subtitle">
+    AI-Assisted Code Security Posture, Vulnerability Remediation, &amp; Architecture Intelligence Engine
+  </div>
+
+  <div class="callout" style="max-width: 620px;">
+    <div class="callout-title">The Candidate's Master Guide</div>
+    This document contains every architectural decision, security mechanism, mathematical model, and interview question &amp; answer required to defend RepoLens in senior software engineering, full-stack, and DevSecOps interviews.
+  </div>
+
+  <div class="cover-meta">
+    <div class="grid-2">
+      <div>
+        <strong>Stack:</strong> Pure MERN (React 18 SPA, Node.js, Express, MongoDB)<br>
+        <strong>Architecture:</strong> Asynchronous Event-Driven Micro-Engine<br>
+        <strong>Security:</strong> AES-256-GCM, Double-Submit CSRF, Sandboxed AST
+      </div>
+      <div>
+        <strong>AI Integration:</strong> Anthropic Claude, Google Gemini, OpenAI<br>
+        <strong>Standards:</strong> CycloneDX v1.5 SBOM, SPASM, OSV, SemVer<br>
+        <strong>Target Roles:</strong> Full Stack Engineer, Backend Engineer, AppSec
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TABLE OF CONTENTS & QUICK INTRO ================= -->
+<h1>1. Executive Summary &amp; Elevator Pitch</h1>
+
+<h3>The 30-Second Interview Pitch</h3>
+<p>
+<em>"RepoLens is an AI-assisted DevSecOps and code intelligence platform built on the MERN stack. Unlike legacy static analysis tools like SonarQube or Snyk that overwhelm developers with noisy rule codes and zero contextual assistance, RepoLens scans GitHub repositories for hardcoded secrets, dependency CVEs, and dangerous code patterns, translates findings into plain-English explanations, and provides 1-click automated Pull Requests that remediate vulnerabilities directly on GitHub. It also features a RAG-powered codebase Q&amp;A engine, dynamic Mermaid architecture diagrams, CycloneDX SBOM generation, and automated security regression detection."</em>
+</p>
+
+<h3>The Core Problems RepoLens Solves</h3>
+<ol>
+  <li><strong>Developer Alert Fatigue &amp; Cryptic Jargon:</strong> Traditional scanners dump identifiers like <code>CWE-78: Improper Neutralization of Special Elements used in an OS Command</code>. Normal developers don't know what to do. RepoLens provides a single plain-English explanation, shows the exact vulnerable line in red, and provides an emerald-green safe drop-in fix.</li>
+  <li><strong>Remediation Friction:</strong> Pointing out a flaw without fixing it creates massive technical debt. RepoLens connects to the GitHub Git Data API to automatically branch, patch, and open a ready-to-merge Pull Request with one click.</li>
+  <li><strong>Context-Blind Audits:</strong> Security tools ignore overall architecture. RepoLens scans routes, data models, and directory trees to synthesize real-time Mermaid.js diagrams and provides an embedded RAG assistant ("Ask Repo") to query the codebase.</li>
+  <li><strong>Heavy Infrastructure Costs:</strong> Traditional solutions mandate external Redis instances, Docker daemons, or Celery queues. RepoLens was re-engineered into a pure MERN architecture using an in-process MongoDB-backed queue, eliminating Redis while maintaining high throughput.</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- ================= ARCHITECTURE & TECH STACK ================= -->
+<h1>2. System Architecture &amp; Engineering Design</h1>
+
+<h3>High-Level Architecture</h3>
+<p>
+RepoLens follows a decoupled, monorepo architecture divided into three discrete workspaces:
+</p>
+<ul>
+  <li><code>client/</code>: React 18 Single-Page Application (SPA) powered by Vite, Tailwind CSS, Lucide icons, Recharts, and Mermaid.js. Locked permanently to dark mode.</li>
+  <li><code>server/</code>: High-throughput Express + Node.js backend written in strict TypeScript. Implements REST APIs, WebSocket streaming (Socket.io), and the MongoDB job queue.</li>
+  <li><code>shared/</code>: Centralized TypeScript library containing isomorphic Zod validation schemas, data contracts, and severity calculation utilities. Shared across client and server.</li>
+</ul>
+
+<h3>Why Pure MERN (and Why Redis Was Removed)?</h3>
+<p>
+In earlier iterations, the system utilized BullMQ and Redis for queueing. In the production refactor:
+</p>
+<ul>
+  <li><strong>Zero Extra Infrastructure:</strong> Redis requires dedicated provisioning, health-checks, memory eviction configurations, and costs money on cloud hosts (like Render/Railway).</li>
+  <li><strong>In-Process MongoScanQueue:</strong> We built an asynchronous, in-process worker backed by MongoDB's <code>Scan</code> document state. It processes jobs with a concurrency limit of 3, writes real-time progress to MongoDB, and automatically recovers abandoned or pending scans on server restart.</li>
+  <li><strong>Transactional Persistence:</strong> Scan state, findings, and queue jobs reside in the same database engine, preventing split-brain states where Redis holds jobs for nonexistent MongoDB records.</li>
+</ul>
+
+<h3>End-to-End Data Flow Pipeline</h3>
+<pre>
+[User / Webhook] 
+       │ 
+       ▼
+[Express Router] ──── (CSRF &amp; AES-256 Auth Check) ────► [Create Scan Document]
+                                                                │
+                                                                ▼
+                                                      [MongoScanQueue Worker]
+                                                                │
+                     ┌──────────────────────────────────────────┴──────────────────────────┐
+                     ▼                                     ▼                               ▼
+            [fetchRepoTextFiles]                 [Dependency Scanner]             [CycloneDX SBOM &amp;
+          (GitHub Trees/Blobs API)                 (OSV Database)               License Classifier]
+                     │                                     │                               │
+                     ├─────────────────► [Raw Findings Collection] ◄───────────────────────┘
+                     │                                     │
+                     ▼                                     ▼
+            [Pattern &amp; Secrets]                  [LLM Enrichment Engine]
+            (Shannon Entropy &amp; AST)             (Claude / Gemini / OpenAI)
+                     │                                     │
+                     └─────────────────► [Calculates Security Score (0-100)]
+                                                           │
+                                                           ▼
+                                                [Regression Delta Check]
+                                                           │
+                                                           ▼
+                                            [Socket.io Broadcast to Client]
+</pre>
+
+<div class="page-break"></div>
+
+<!-- ================= THE 4 SCANNING ENGINES ================= -->
+<h1>3. Deep Dive into the 4 Core Security Engines</h1>
+
+<h2>Engine 1: High-Entropy Secrets &amp; Token Scanner</h2>
+<p>
+The secrets scanner uses a two-tier detection model: <strong>Deterministic Regex Matching</strong> combined with <strong>Shannon Entropy Calculation</strong>.
+</p>
+
+<h3>Shannon Entropy Mathematical Model</h3>
+<p>
+Randomly generated API keys, private certificates, and credentials have significantly higher information entropy than normal source code identifiers. The entropy \(H\) of a string \(S\) is computed as:
+</p>
+<pre>
+H(S) = - ∑ ( p(c) * log2( p(c) ) )
+</pre>
+<p>
+Where \(p(c)\) is the frequency of character \(c\) divided by the total string length.
+</p>
+<ul>
+  <li>Standard English variable names (e.g., <code>userAuthenticationController</code>) typically evaluate to an entropy between <strong>2.0 and 3.2</strong>.</li>
+  <li>Cryptographic base64/hex keys (e.g., <code>AKIAIOSFODNN7EXAMPLE</code>, <code>sk_live_51Oz...</code>) evaluate to <strong>4.5 or higher</strong>.</li>
+  <li>RepoLens evaluates any string literal over 16 characters matching key assignment heuristics (e.g. <code>apiKey = "..."</code>) against a <strong>threshold of 4.5</strong>.</li>
+</ul>
+
+<h3>Zero-Exposure Masking</h3>
+<p>
+To ensure user compliance and zero data leaks, secrets are <strong>never stored raw in MongoDB or transmitted across WebSockets</strong>. The <code>maskSecret()</code> utility replaces the inner 70% of the token with asterisks (e.g., <code>ghp_1234567890abcdef $\rightarrow$ ghp_12****cdef</code>).
+</p>
+
+<h2>Engine 2: Insecure Code Patterns &amp; AST Analysis</h2>
+<p>
+Detects vulnerabilities that linters miss by scanning code structure for exploitable sinks:
+</p>
+<ul>
+  <li><strong>OS Command Injection:</strong> Identifies calls to <code>child_process.exec()</code> or <code>execSync()</code> where template literals (<code>`kill ${pid}`</code>) or string concatenation are passed. Recommends safe argument array execution using <code>execFile()</code> / <code>execFileSync()</code>.</li>
+  <li><strong>Dynamic Code Execution:</strong> Flags <code>eval()</code> and <code>new Function()</code> with dynamic inputs.</li>
+  <li><strong>Missing Security Headers:</strong> Scans Express initialization files (<code>express()</code>) and warns if <code>helmet()</code> middleware is absent.</li>
+</ul>
+
+<h2>Engine 3: Dependency Vulnerability &amp; CVE Scanner</h2>
+<p>
+Scans <code>package.json</code> and lockfiles against the Open Source Vulnerabilities (OSV) database. It parses semver constraints and reports exact CVE identifiers, vulnerable version ranges, and patched release targets.
+</p>
+
+<h2>Engine 4: CycloneDX v1.5 SBOM &amp; License Compliance</h2>
+<ul>
+  <li><strong>CycloneDX v1.5 JSON:</strong> Generates machine-readable software bills of materials containing Package URLs (<code>pkg:npm/express@4.18.2</code>), component UUIDs, and dependency trees.</li>
+  <li><strong>License Classifier:</strong> Categorizes licenses into <strong>Permissive</strong> (MIT, Apache 2.0, BSD), <strong>Weak Copyleft</strong> (LGPL, MPL), and <strong>Strong Copyleft</strong> (GPL, AGPL) to alert businesses if their proprietary code risks open-source license infection.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- ================= AI, RAG & AUTO-REMEDIATION ================= -->
+<h1>4. AI Architecture, RAG Pipeline, &amp; Auto-Remediation</h1>
+
+<h2>1-Click AI Auto-Remediation (Pull Request Engine)</h2>
+<p>
+When an issue is detected, RepoLens doesn't just display an error—it offers 1-click GitHub Pull Request creation. Here is how the backend interacts with GitHub's Git Data API:
+</p>
+<ol>
+  <li><strong>Branch Creation:</strong> Retrieves the default branch head commit SHA via <code>GET /repos/:owner/:repo/git/ref/heads/:branch</code> and creates a feature branch <code>repolens/fix-[shortId]</code> via <code>POST /repos/:owner/:repo/git/refs</code>.</li>
+  <li><strong>File Blob Patching:</strong> Fetches the existing file's base64 content and SHA. Decodes the file, replaces the vulnerable snippet with the AI-suggested safe replacement, base64 encodes it, and pushes a commit via <code>PUT /repos/:owner/:repo/contents/:path</code>.</li>
+  <li><strong>Pull Request Creation:</strong> Issues a <code>POST /repos/:owner/:repo/pulls</code> with an automated PR title, description of the vulnerability, and a markdown diff explaining the fix.</li>
+</ol>
+
+<h2>RAG Pipeline: "Ask Repo AI"</h2>
+<p>
+Developers can ask questions like <em>"How does our authentication middleware validate tokens?"</em> or <em>"Are any user endpoints missing authorization checks?"</em>:
+</p>
+<ul>
+  <li><strong>Semantic Chunking (<code>ragChunker.ts</code>):</strong> Splits repository files into logical overlapping chunks (800–1200 characters), ensuring function declarations and context boundaries remain intact.</li>
+  <li><strong>Chunk Indexing:</strong> Chunks are stored in MongoDB with file paths, line ranges, and language metadata.</li>
+  <li><strong>Context Retrieval:</strong> When a user submits a query, relevant code chunks are retrieved using multi-keyword lexical matching and fed into the LLM system prompt.</li>
+  <li><strong>Cited Streaming Responses:</strong> The LLM generates streaming markdown with clickable line range citations (e.g., <code>[server/src/middleware/auth.ts:15-32]</code>).</li>
+</ul>
+
+<h2>Automated PR Security Reviews</h2>
+<p>
+RepoLens automatically listens for GitHub <code>pull_request</code> webhooks. When a PR is opened or synchronized, RepoLens scans the pull request branch and uses <code>postPullRequestComment</code> to comment directly on the PR with the score, issue breakdown, and links.
+</p>
+
+<div class="page-break"></div>
+
+<!-- ================= SECURITY & PRIVACY ================= -->
+<h1>5. Security Architecture &amp; Defense-in-Depth</h1>
+
+<h2>1. Token Encryption at Rest (AES-256-GCM)</h2>
+<p>
+GitHub personal access tokens and OAuth tokens allow reading private code. If the database is compromised, raw tokens would be catastrophic.
+</p>
+<pre>
+Ciphertext = AES-256-GCM(plaintext, TOKEN_ENCRYPTION_KEY, IV)
+Stored string = IV (12 bytes) : AuthTag (16 bytes) : Ciphertext (hex encoded)
+</pre>
+<ul>
+  <li><strong>Galois/Counter Mode (GCM):</strong> Provides both confidentiality and authenticity. If an attacker modifies even a single bit of the encrypted token in MongoDB, decryption fails with an authentication error.</li>
+  <li><strong>Unique IV per Record:</strong> Every token is encrypted with a freshly generated 12-byte initialization vector (<code>crypto.randomBytes(12)</code>), preventing rainbow table attacks.</li>
+</ul>
+
+<h2>2. Double-Submit CSRF Cookie Protection</h2>
+<p>
+Prevents Cross-Site Request Forgery on all state-changing endpoints (<code>POST</code>, <code>PATCH</code>, <code>DELETE</code>):
+</p>
+<ul>
+  <li>On initial authentication, the server writes a random CSRF token to an HTTP-only signed cookie (<code>_csrf</code>).</li>
+  <li>The client reads this token from the API and must submit it in the custom header <code>X-CSRF-Token</code> on mutating requests.</li>
+  <li>The <code>requireCsrf</code> middleware verifies that the header strictly equals the cookie token.</li>
+</ul>
+
+<h2>3. Cross-User Repository Ownership Isolation (Multi-Tenancy)</h2>
+<p>
+Every route querying a repository (e.g., <code>/api/repos/:id</code>, <code>/api/scans/:id</code>) enforces:
+</p>
+<pre>
+const repo = await Repo.findOne({ _id: repoId, userId: req.user._id });
+if (!repo) throw new AppError(404, 'Repository not found');
+</pre>
+<p>
+Returning <strong>404 Not Found</strong> instead of <strong>403 Forbidden</strong> prevents user enumeration and information disclosure.
+</p>
+
+<h2>4. Ephemeral Sandboxed Code Analysis</h2>
+<p>
+RepoLens never clones untrusted repository files onto the host operating system disk, nor does it execute user scripts (no <code>npm install</code> or <code>eval</code>). File contents are streamed directly from GitHub's Trees API into memory buffers, analyzed via AST/regex, and immediately released to the V8 garbage collector.
+</p>
+
+<div class="page-break"></div>
+
+<!-- ================= INTERVIEW QUESTIONS & ANSWERS ================= -->
+<h1>6. Comprehensive Interview Q&amp;A Cheatsheet</h1>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Architecture</span>
+    Q1: Can you describe the high-level architecture of RepoLens?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> RepoLens is an end-to-end code security and architecture intelligence platform built on a pure MERN stack (React 18 SPA + Vite, Node.js + Express, MongoDB). The frontend communicates with Express via typed REST endpoints and Socket.io for live scanning progress. Instead of relying on an external Redis/BullMQ queue, we built an in-process, MongoDB-backed queue (<code>MongoScanQueue</code>) that processes scan jobs with concurrency controls, stores findings, and computes security scores asynchronously.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">DevOps / Queue</span>
+    Q2: Why did you eliminate Redis and BullMQ in favor of an in-process MongoDB queue?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> Two main reasons: operational complexity and state consistency. Running Redis alongside MongoDB requires managing two separate persistence engines, provisioning memory alerts, and paying for multiple managed services in cloud deployments like Render or Vercel. By implementing <code>MongoScanQueue</code>, we achieved transactional persistence—if a scan fails or the server restarts, pending scans are recovered directly from MongoDB without orphaned queue states or connection timeouts.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Security</span>
+    Q3: How do you securely store and handle users' GitHub OAuth access tokens?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> Tokens are encrypted at rest using AES-256-GCM. We generate a unique 12-byte initialization vector (IV) for every encryption operation using Node's native <code>crypto.randomBytes(12)</code>. The resulting ciphertext, IV, and 16-byte authentication tag are packed and saved to MongoDB. Tokens are decrypted strictly in memory at the exact moment a GitHub API call is made, and are never logged or exposed to the client.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Algorithms</span>
+    Q4: How does your secrets detection engine differentiate between random credentials and normal code identifiers?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> We combine regex pattern matching for known token prefixes (like AWS <code>AKIA...</code> or Stripe <code>sk_live_...</code>) with Shannon Entropy calculation. Normal code variables have low entropy (typically 2.0 to 3.2) because vowels and common letters recur frequently. Cryptographically random tokens exhibit high informational entropy (above 4.5). Strings matching secret-like variable assignments that exceed our 4.5 threshold are flagged as leaked credentials.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Full Stack</span>
+    Q5: How does the 1-click AI Auto-Remediation feature work behind the scenes?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> When a user clicks "Open Fix PR", the backend retrieves the repository's default branch commit SHA, creates a new Git reference (e.g. <code>refs/heads/repolens/fix-abc123</code>), retrieves the target file's blob SHA, applies the AI-suggested safe replacement, commits the patched file via GitHub's Contents API, and issues a <code>POST /repos/:owner/:repo/pulls</code> request. The returned PR URL is saved to the finding and displayed to the user.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">AI / RAG</span>
+    Q6: How does the "Ask Repo AI" RAG pipeline work without running out of token limits?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> Rather than dumping whole files into the LLM prompt, we chunk repository files into 800–1200 character segments with line number tracking and store them in a MongoDB <code>Chunk</code> collection. When the user asks a question, we perform lexical search against the chunk index to retrieve only the top relevant context blocks. These blocks are passed to Claude or Gemini alongside a strict system prompt instructing the model to provide cited answers.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Security</span>
+    Q7: What is Security Regression Detection and how did you implement it?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> Security regression occurs when a new commit decreases the overall security score or introduces new vulnerabilities. On each completed scan, RepoLens fetches the immediate previous scan for that repository and calculates <code>scoreDelta = currentScore - previousScore</code>. If <code>scoreDelta < 0</code>, we mark <code>isRegression = true</code> and tag any newly detected finding with <code>isRegressionNew = true</code>. The frontend highlights this with a regression alert banner and a filter to isolate only the new issues.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Full Stack</span>
+    Q8: How do you handle GitHub API rate limits when scanning large repositories?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> Our <code>githubRequest</code> client implements ETag caching (HTTP 304 Not Modified) with an in-memory LRU map of 500 entries, saving rate limit tokens for unchanged trees. Furthermore, it inspects the <code>x-ratelimit-remaining</code> and <code>x-ratelimit-reset</code> response headers; if the client reaches rate limit barriers, it initiates exponential backoff with jitter up to 10 seconds before retrying.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Compliance</span>
+    Q9: What is an SBOM and what standard does RepoLens support?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> A Software Bill of Materials (SBOM) is a complete formal inventory of all software components, libraries, and modules used in an application. RepoLens implements the industry-standard <strong>CycloneDX v1.5 specification</strong>. It parses direct and transitive dependencies from <code>package.json</code>, assigns valid Package URLs (PURLs), and exports a downloadable JSON file.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Web Security</span>
+    Q10: Why did you use Double-Submit CSRF cookies instead of simple Origin headers?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> Origin and Referer headers can be stripped or altered by certain enterprise proxies, browser extensions, or intranet gateways. The double-submit cookie pattern ensures that any state-changing request must carry the CSRF token in both a secure cookie and an explicit request header. Because same-origin policy prohibits malicious cross-origin scripts from reading or writing our domain's headers, CSRF attacks are blocked.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Performance</span>
+    Q11: How is the security score calculated?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> We start with a baseline score of 100 and apply weighted deductions based on active open findings:
+    Critical issues deduct 25 points, High deducts 15 points, Medium deducts 5 points, and Low deducts 2 points. The result is clamped between 0 and 100. When a user marks a finding as resolved or ignored (false positive), the score automatically recalculates.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Deployment</span>
+    Q12: How can RepoLens be deployed in production?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> RepoLens supports dual deployment modes:
+    1. <strong>Split Deployment:</strong> The React Vite SPA is deployed to Vercel (with client-side SPA route rewrites configured in <code>vercel.json</code>) and the Express API is deployed to Render or Railway with MongoDB Atlas.
+    2. <strong>Monolithic Single-Container:</strong> In production mode (<code>NODE_ENV=production</code>), Express automatically serves the built static client bundle from <code>client/dist</code>, allowing the whole platform to run inside a single Docker container.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">AppSec</span>
+    Q13: How does RepoLens prevent command injection in its own backend when scanning files?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> RepoLens never uses shell execution commands (<code>exec</code>, <code>spawn</code>, <code>bash</code>) to analyze repository files. File contents are fetched over HTTPS through the GitHub REST API and parsed purely in memory using JavaScript string methods and static Abstract Syntax Tree (AST) parsers. No user code is executed on the server.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Frontend</span>
+    Q14: How does the client maintain real-time updates while a scan is running?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> We use Socket.io. When a scan job progresses in the background (e.g. fetching files at 10%, secret scanning at 25%, AST pattern analysis at 55%, SBOM generation at 85%), the worker emits <code>scan:progress</code> events targeted to the user's private socket room. The React component listens for these events to update the animated progress bar in real time without polling.
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-question">
+    <span class="qa-badge">Architecture</span>
+    Q15: If an interviewer asks: 'What was the hardest technical challenge you solved on RepoLens?', how should you answer?
+  </div>
+  <div class="qa-answer">
+    <strong>Answer:</strong> <em>"The hardest challenge was refactoring the architecture from a distributed setup requiring Redis and BullMQ to a pure MERN in-process event-driven engine without sacrificing reliability. We had to implement an asynchronous queue with bounded concurrency in Node.js, ensure crash recovery by inspecting pending MongoDB records on startup, and eliminate re-render loops in the React SPA when synchronizing authentication state and WebSocket progress. This reduced our deployment footprint by 50% and made the system zero-maintenance."</em>
+  </div>
+</div>
+
+</body>
+</html>

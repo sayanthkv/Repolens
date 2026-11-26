@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RepoLens — Complete Fresher Interview & Architecture Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  @page {
+    size: A4;
+    margin: 1.4cm;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1e293b;
+    line-height: 1.55;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+  }
+
+  .tagline {
+    font-size: 10.5pt;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1d4ed8;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    border-left: 4px solid #2563eb;
+    padding-left: 8px;
+  }
+
+  h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin: 0 0 8px 0;
+  }
+
+  ul, ol {
+    margin: 0 0 10px 0;
+    padding-left: 18px;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  .box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 10px 0;
+  }
+
+  .script-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 12px 0;
+  }
+
+  .script-title {
+    font-weight: 700;
+    color: #1e40af;
+    font-size: 9.5pt;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .script-text {
+    font-size: 9.5pt;
+    color: #1e293b;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .badge-tag {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+
+  .q-box {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+
+  .q-title {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 10.5pt;
+    margin-bottom: 6px;
+  }
+
+  .q-ans {
+    color: #334155;
+    font-size: 9.5pt;
+  }
+
+  .q-ans strong {
+    color: #0f172a;
+  }
+
+  .story-box {
+    background: #fefce8;
+    border: 1px solid #fef08a;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 12px 0;
+    page-break-inside: avoid;
+  }
+
+  .table-clean {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px 0;
+    font-size: 9pt;
+  }
+
+  .table-clean th {
+    background: #f1f5f9;
+    color: #0f172a;
+    text-align: left;
+    padding: 6px 8px;
+    border: 1px solid #cbd5e1;
+  }
+
+  .table-clean td {
+    padding: 6px 8px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5pt;
+    background: #f1f5f9;
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: #0f172a;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🛡️ RepoLens — Fresher Interview & Project Mastery Guide</h1>
+  <div class="tagline">Plain-English Explanations, Complete Architecture, Recent Updates &amp; Winning Interview Answers</div>
+</div>
+
+<h2>1. The 10-Second Elevator Pitch (Start Here!)</h2>
+<p>
+  <strong>"Think of RepoLens like Grammarly, but for code security."</strong>
+</p>
+<p>
+  Just like Grammarly underlines your grammar mistakes and lets you fix them with one click, 
+  <strong>RepoLens connects to your GitHub repository, underlines your security bugs, explains them in plain English, and fixes them with a 1-click Pull Request directly on GitHub!</strong>
+</p>
+
+<div class="script-box">
+  <div class="script-title">🗣️ Perfect 30-Second Answer: "Tell me about your project"</div>
+  <div class="script-text">
+    "Sir, my project is called <strong>RepoLens</strong>. It is a full-stack <strong>MERN</strong> web application that acts as an automated security assistant for developers.<br><br>
+    When a developer connects their GitHub repository, RepoLens scans the code for <strong>hardcoded passwords/API keys, vulnerable npm packages, and unsafe code patterns</strong> like command injection. It computes an overall <strong>Security Health Score from 0 to 100</strong>.<br><br>
+    Instead of showing cryptic error codes, it uses <strong>AI to explain the risk in plain English</strong>, shows the exact line of bad code, and provides a <strong>1-click button to automatically create a Pull Request on GitHub</strong> that fixes the bug.<br><br>
+    I built the frontend with <strong>React and Vite</strong> in dark mode, the backend with <strong>Node.js and Express</strong>, and stored scans, findings, and user data in <strong>MongoDB</strong>."
+  </div>
+</div>
+
+<h2>2. Tech Stack & Why You Picked It</h2>
+<table class="table-clean">
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Technology</th>
+      <th>Why You Chose It (The "Why" Matters in Interviews)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Frontend</strong></td>
+      <td>React 18 + Vite + Tailwind CSS</td>
+      <td>React gives modular reusable components; Vite provides lightning-fast HMR builds; Tailwind enables high-contrast, clean dark-mode UI.</td>
+    </tr>
+    <tr>
+      <td><strong>Backend</strong></td>
+      <td>Node.js + Express (TypeScript)</td>
+      <td>TypeScript prevents runtime bugs; Node.js handles non-blocking asynchronous I/O cleanly for concurrent scanning jobs.</td>
+    </tr>
+    <tr>
+      <td><strong>Database</strong></td>
+      <td>MongoDB + Mongoose</td>
+      <td>Security scan results have flexible, nested structures (a scan can have 0 to 50 findings). MongoDB documents store nested findings naturally without complex SQL joins.</td>
+    </tr>
+    <tr>
+      <td><strong>Real-Time</strong></td>
+      <td>Socket.io (WebSockets)</td>
+      <td>Streams live scan progress (0% to 100%) and regression alerts to the browser without requiring the user to refresh the page.</td>
+    </tr>
+    <tr>
+      <td><strong>AI Engine</strong></td>
+      <td>Google Gemini / Claude API</td>
+      <td>Transforms cryptic CVE numbers into simple explanations and generates clean, drop-in replacement code for automated pull requests.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h2>3. What Does RepoLens Actually Scan? (AST vs. Regex)</h2>
+<p>
+  RepoLens uses two distinct scanning techniques to balance high speed and deep accuracy:
+</p>
+
+<table class="table-clean">
+  <thead>
+    <tr>
+      <th>Scan Category</th>
+      <th>Method Used</th>
+      <th>How It Works in Plain English</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Dangerous Code (Command Injection, Eval)</strong></td>
+      <td><span class="badge-tag">AST</span> Abstract Syntax Tree</td>
+      <td>RepoLens parses the JavaScript/TypeScript code into a grammatical tree (AST) using Babel. It checks if functions like <code>child_process.exec()</code> receive dynamic string concatenations or variables instead of safe static strings.</td>
+    </tr>
+    <tr>
+      <td><strong>Missing Express Headers</strong></td>
+      <td><span class="badge-tag">AST</span> Abstract Syntax Tree</td>
+      <td>Traverses the server startup code to verify whether security middleware like <code>helmet()</code> is enabled before routes are mounted.</td>
+    </tr>
+    <tr>
+      <td><strong>Hardcoded Secrets &amp; API Keys</strong></td>
+      <td><span class="badge-tag">Regex</span> + Shannon Entropy</td>
+      <td>Matches known patterns (e.g., <code>ghp_</code> for GitHub tokens, <code>AKIA</code> for AWS keys) and measures Shannon Entropy (randomness) to catch passwords and private tokens.</td>
+    </tr>
+    <tr>
+      <td><strong>Vulnerable Dependencies</strong></td>
+      <td><span class="badge-tag">API</span> OSV.dev Database</td>
+      <td>Reads <code>package.json</code> and queries the Google Open Source Vulnerabilities (OSV) API in batches to find known security advisories (CVEs).</td>
+    </tr>
+    <tr>
+      <td><strong>License Compliance &amp; SBOM</strong></td>
+      <td><span class="badge-tag">Audit</span> CycloneDX v1.5</td>
+      <td>Exports a standard Software Bill of Materials (SBOM) and warns against viral Copyleft licenses (GPL/AGPL) that could force commercial code to become open-source.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>4. The Latest Engineering Updates &amp; How We Solved Them</h2>
+
+<div class="box">
+  <h3>✨ Update 1: Smart Placeholder Filtering (Zero False Positives)</h3>
+  <p>
+    <strong>The Problem:</strong> When developers write tutorial or template connection strings like <code>MONGODB_URI=mongodb+srv://&lt;username&gt;:&lt;password&gt;@cluster...</code>, naive scanners mistakenly flagged them as critical leaked secrets.<br>
+    <strong>The Solution:</strong> We implemented smart heuristic filtering in <code>secretsScanner.ts</code>. It detects placeholder markers (such as <code>&lt;username&gt;</code>, <code>&lt;password&gt;</code>, <code>user:pass</code>, <code>YOUR_API_KEY</code>) and automatically ignores them.
+  </p>
+</div>
+
+<div class="box">
+  <h3>⚡ Update 2: High-Performance In-Memory OSV Caching</h3>
+  <p>
+    <strong>The Problem:</strong> Re-scanning a repo or scanning multiple branches was making repetitive external HTTP calls to <code>https://api.osv.dev</code>, which slowed down scans.<br>
+    <strong>The Solution:</strong> Added an in-memory TTL cache (1-hour expiry) in <code>dependencyScanner.ts</code>. If a package (e.g. <code>vitest@3.2.7</code>) was checked recently, results are served instantly from memory in under 5ms.
+  </p>
+</div>
+
+<div class="box">
+  <h3>🔒 Update 3: Enterprise Webhook &amp; Route Security</h3>
+  <p>
+    <strong>Constant-Time Signatures:</strong> GitHub Webhook signatures (<code>X-Hub-Signature-256</code>) are verified using Node's <code>crypto.timingSafeEqual</code> to prevent timing-based side-channel attacks.<br>
+    <strong>Rate Limiting:</strong> Added strict rate limiters on AI and PR-creation endpoints to protect backend resources and prevent API cost runaway.<br>
+    <strong>Automated CI Pipeline:</strong> Added <code>.github/workflows/ci.yml</code> to run tests, linting, and production builds automatically on every push.
+  </p>
+</div>
+
+<div class="story-box">
+  <h3>💡 Update 4: The Vercel PR #1 Bug Fix (The Best Story for Interviews!)</h3>
+  <p>
+    <strong>The Real Bug:</strong> When the user first clicked "1-Click PR" to upgrade <code>vitest</code>, RepoLens generated a pull request that failed on Vercel with <code>Command "npm install" exited with 1</code>.<br>
+    <strong>Why Did It Break?</strong> The older AI replacement added a trailing comment inside <code>package.json</code> (e.g. <code>"vitest": "^3.2.8" // safe version</code>). Because <strong>standard JSON does not allow comments</strong>, Node's package manager crashed on syntax parsing!<br>
+    <strong>How We Solved It:</strong> In <code>githubClient.ts</code>, we refactored the PR creator to parse <code>package.json</code> strictly with <code>JSON.parse()</code>, update the dependency key programmatically, and serialize it back with <code>JSON.stringify()</code>. Clean, 100% valid JSON with zero broken builds!
+  </p>
+</div>
+
+<div class="page-break"></div>
+
+<h2>5. Top 10 Interview Questions &amp; Winning Answers</h2>
+
+<div class="q-box">
+  <div class="q-title">Q1: What was your specific role and contribution?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "I worked as a Full-Stack developer. I built the React 18 UI with Tailwind CSS and Vite, created the Express REST APIs in TypeScript, implemented GitHub OAuth 2.0 with AES-256 encrypted tokens, built the background scanner for secrets and AST code patterns, and integrated the 1-click GitHub PR automation."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q2: How does the 1-click "Create Fix PR" feature work under the hood?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "When the user clicks 'Create Fix PR', our backend retrieves the user's encrypted GitHub token, decrypts it in memory, and uses GitHub's Git Data API. It retrieves the latest commit SHA of the base branch, creates a new branch, updates the affected file with safe replacement code, commits the change, and opens a ready-to-merge Pull Request. The user is returned a direct link to review and merge the PR."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q3: How do you avoid false positives when scanning code?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "We use two strategies: First, for code patterns, we use <strong>AST analysis</strong> instead of simple regex. AST parses the code into syntax trees, so it only flags functions like <code>exec()</code> when they actually receive dynamic variables, not when they run static safe commands. Second, for secrets, we built a <strong>smart placeholder filter</strong> that ignores documentation strings like <code>mongodb+srv://&lt;username&gt;:&lt;password&gt;...</code>."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q4: Tell me about a real bug you encountered and how you solved it.</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "When testing our 1-click PR feature on an external repo, Vercel's automated preview build failed with an <code>npm install</code> error. I investigated the pull request and realized our string-replacement logic had inserted a JavaScript comment (<code>// safe version</code>) inside <code>package.json</code>. Because standard JSON forbids comments, <code>npm install</code> couldn't parse the file. I fixed it by replacing raw string matching with structured JSON parsing—using <code>JSON.parse</code>, bumping the version cleanly in memory, and writing it back with <code>JSON.stringify</code>."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q5: How is user authentication handled? How do you keep GitHub tokens safe?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "We use <strong>GitHub OAuth 2.0</strong> with minimal scopes (<code>read:user</code>, <code>user:email</code>, <code>public_repo</code>). When GitHub returns an access token, we never store it in plain text. We encrypt it using <strong>AES-256-GCM</strong> with a unique 12-byte initialization vector and auth tag before saving it to MongoDB. For user sessions, we use signed HTTP-only cookies and double-submit CSRF tokens to block cross-site request forgery."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q6: How does the Security Score calculation work?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "Every repository starts with a clean baseline score of 100. We deduct points based on severity: 25 for Critical, 15 for High, 5 for Medium, and 2 for Low. The final score is clamped between 0 and 100. If a user marks an issue as 'Resolved' or 'Ignored', the score recalculates dynamically in real time."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q7: What is "Security Regression Detection"?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "Regression detection monitors how your security score changes over time across git commits. If commit A had a score of 95, but a developer pushes commit B that drops the score to 75 by introducing a new vulnerability, RepoLens flags a <code>scoreDelta</code> of -20 and alerts the developer with a prominent banner so they can fix the newly introduced issue before it hits production."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q8: Why did you choose MongoDB instead of PostgreSQL or MySQL?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "Security findings have highly dynamic, nested attributes—a secret finding has line numbers and entropy; a dependency finding has CVE numbers, affected versions, and fixed versions. MongoDB's document model stores these polymorphic finding structures natively without requiring dozens of relational JOIN tables."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q9: What happens if a scan takes a long time? Does it block the server?</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "No. We designed an asynchronous background queue backed by MongoDB (<code>MongoScanQueue</code>). When the user clicks 'Scan', the API immediately returns a <code>202 Accepted</code> with a scan ID. The scan runs in the background, updating its progress percentage, and WebSockets (Socket.io) push real-time updates directly to the client's screen."
+  </div>
+</div>
+
+<div class="q-box">
+  <div class="q-title">Q10: What are the current limitations of RepoLens? (Demonstrates maturity!)</div>
+  <div class="q-ans">
+    <strong>Say this:</strong> "Currently, RepoLens focuses on the JavaScript and TypeScript (npm) ecosystem. We also enforce a 500 KB per-file limit to protect server memory from minified bundles, and we maintain a human-in-the-loop philosophy—RepoLens creates Pull Requests for developer approval rather than blindly auto-merging code."
+  </div>
+</div>
+
+<h2>6. Golden Rules for Interview Success</h2>
+<ul>
+  <li><strong>Be conversational:</strong> Talk like an engineer explaining their favorite creation. Use simple analogies like "Grammarly for code security".</li>
+  <li><strong>Mention the Vercel bug fix:</strong> Interviewers love real debugging stories. Describing how you diagnosed and solved the <code>package.json</code> parsing bug proves you wrote and tested real code!</li>
+  <li><strong>Be confident:</strong> You understand the full lifecycle: Frontend (React), Backend (Express/Node), Database (MongoDB), Auth (OAuth 2.0/AES-256), and DevOps (GitHub API &amp; CI). You are ready!</li>
+</ul>
+
+</body>
+</html>

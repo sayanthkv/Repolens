@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    --font-jetbrains-mono: 'JetBrains Mono', monospace;
+
+    /* Bright Luminous Sky-Pearl & Slate Theme */
+    --red: #2563EB;
+    --red-nav: #FFFFFF;
+    --bg: #F6F8FC;
+    --surface: #FFFFFF;
+    --surface-hi: #E2E8F0;
+    --muted: #64748B;
+    --text-dim: #475569;
+    --text: #0F172A;
+    --code-bg: #0F172A;
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-ui: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.64, 0, 0.78, 0);
+
+    --background: 220 33% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 214 32% 95%;
+    --secondary-foreground: 222 47% 11%;
+    --muted-hsl: 215 16% 47%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 214 32% 95%;
+    --accent-foreground: 222 47% 11%;
+    --border: 214 32% 91%;
+    --input: 214 32% 88%;
+    --ring: 221 83% 53%;
+    --radius: 1rem;
+    --severity-critical: 0 84% 60%;
+    --severity-high: 24 95% 53%;
+    --severity-medium: 45 93% 47%;
+    --severity-low: 215 16% 47%;
+  }
+
+  .dark {
+    --background: 220 33% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 214 32% 95%;
+    --secondary-foreground: 222 47% 11%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 214 32% 95%;
+    --accent-foreground: 222 47% 11%;
+    --border: 214 32% 91%;
+    --input: 214 32% 88%;
+    --ring: 221 83% 53%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: #E2E8F0;
+  }
+  body {
+    @apply antialiased selection:bg-blue-600 selection:text-white;
+    min-height: 100vh;
+    font-family: var(--font-inter);
+    background: linear-gradient(180deg, #F8FBFF 0%, #F2F6FD 100%);
+    color: #0F172A;
+  }
+  :focus-visible {
+    outline: 2px solid #2563EB;
+    outline-offset: 2px;
+  }
+}
+
+/* Soft, Modern, Frosted-Crystal Container System Across All Pages */
+.liquid-card,
+.card-uniform {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 251, 255, 0.86) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 10px 32px -8px rgba(37, 99, 235, 0.08),
+    0 4px 12px -2px rgba(15, 23, 42, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+  transition:
+    border-color 520ms var(--ease-out),
+    box-shadow 520ms var(--ease-out),
+    transform 520ms var(--ease-out),
+    background 520ms var(--ease-out);
+}
+
+.liquid-card:hover,
+.card-uniform:hover {
+  border-color: rgba(147, 197, 253, 0.9);
+  box-shadow:
+    0 18px 42px -10px rgba(37, 99, 235, 0.14),
+    0 6px 16px -4px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+}
+
+/* Soft Primary Action Button */
+.liquid-btn-primary {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition:
+    transform 450ms var(--ease-out),
+    box-shadow 450ms var(--ease-out),
+    opacity 360ms ease;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+}
+
+.liquid-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.24);
+}
+
+.btn-editorial-white {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0F172A;
+  font-weight: 600;
+  border: 1px solid #E2E8F0;
+  border-radius: 9999px;
+  transition: all 450ms var(--ease-out);
+}
+
+.btn-editorial-white:hover {
+  background: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.chrome-pill {
+  border: 1px solid #E2E8F0;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 9999px;
+}
+
+/* Smooth, Slow Page, Text, Section & Container Entrance Choreography */
+@keyframes pageFadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes textGlide {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-page-enter {
+  animation: pageFadeSlide 900ms var(--ease-out) both;
+}
+
+.animate-text-reveal {
+  animation: textGlide 950ms var(--ease-out) both;
+}
+
+.animate-text-delay-1 {
+  animation: textGlide 1000ms var(--ease-out) 180ms both;
+}
+
+.animate-text-delay-2 {
+  animation: textGlide 1050ms var(--ease-out) 340ms both;
+}
+
+.animate-text-delay-3 {
+  animation: textGlide 1100ms var(--ease-out) 500ms both;
+}
+
+/* Scroll-triggered section reveal across every page */
+.reveal-section {
+  opacity: 0;
+  translate: 0 18px;
+  transition:
+    opacity 950ms var(--ease-out),
+    translate 950ms var(--ease-out);
+  will-change: opacity, translate;
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Seamless Linear Logo Marquee */
+@keyframes cy-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-cy-marquee {
+  display: flex;
+  width: max-content;
+  animation: cy-marquee 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cy-marquee,
+  .animate-page-enter,
+  .animate-text-reveal,
+  .animate-text-delay-1,
+  .animate-text-delay-2,
+  .animate-text-delay-3 {
+    animation: none !important;
+  }
+  .reveal-section,
+  .reveal-section .card-uniform,
+  .reveal-section .liquid-card {
+    opacity: 1 !important;
+    translate: none !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .liquid-card:hover,
+  .card-uniform:hover {
+    transform: none !important;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Clean Light Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
