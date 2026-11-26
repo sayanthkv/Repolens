@@ -12,7 +12,7 @@ import {
 import type { AskChatMessage, ConnectedRepo } from '@repolens/shared';
 import { AppShell } from '@/components/app-shell';
 import { HypnoticLoader } from '@/components/hypnotic-loader';
-import { apiFetch, API_BASE_URL, getCsrfToken } from '@/lib/api';
+import { apiFetch, API_BASE_URL, ensureCsrfToken } from '@/lib/api';
 import { useAuth } from '@/lib/use-auth';
 
 const STARTER_PROMPTS = [
@@ -62,7 +62,7 @@ export function AskAiPage() {
     setMessages([...nextHistory, { role: 'assistant', content: '', citations: [] }]);
 
     try {
-      const csrf = getCsrfToken();
+      const csrf = await ensureCsrfToken();
       const response = await fetch(`${API_BASE_URL}/api/repos/${selectedRepoId}/ask`, {
         method: 'POST',
         credentials: 'include',

@@ -20,6 +20,10 @@ export function getCsrfToken(): string | null {
   return match ? decodeURIComponent(match.split('=')[1] ?? '') : null;
 }
 
+export async function ensureCsrfToken(): Promise<string | null> {
+  return getCsrfToken() || (await hydrateCsrfToken());
+}
+
 async function hydrateCsrfToken(): Promise<string | null> {
   try {
     const res = await fetch(`${API_BASE_URL}/api/me`, { credentials: 'include' });

@@ -5,7 +5,7 @@ import { Send, Loader2, ExternalLink, Sparkles, MessageSquareCode } from 'lucide
 import type { AskChatMessage, AskCitation } from '@repolens/shared';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { API_BASE_URL, getCsrfToken } from '@/lib/api';
+import { API_BASE_URL, ensureCsrfToken } from '@/lib/api';
 
 interface AskRepoPanelProps {
   repoId: string;
@@ -41,7 +41,7 @@ export function AskRepoPanel({ repoId, repoFullName, defaultBranch }: AskRepoPan
     setMessages([...nextHistory, { role: 'assistant', content: '', citations: [] }]);
 
     try {
-      const csrf = getCsrfToken();
+      const csrf = await ensureCsrfToken();
       const response = await fetch(`${API_BASE_URL}/api/repos/${repoId}/ask`, {
         method: 'POST',
         credentials: 'include',

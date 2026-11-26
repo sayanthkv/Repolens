@@ -131,21 +131,87 @@ export async function generateRepoSummary(
       .join('\n')}`,
   ].join('\n\n');
 
-  const summary = await client.generateJson(
-    {
-      systemPrompt: REDUCE_SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: reducePrompt }],
-      maxTokens: 2600,
-      temperature: 0.2,
-      timeoutMs: 45_000,
-    },
-    RepoSummaryContentSchema,
+  try {
+    const summary = await client.generateJson(
+      {
+        systemPrompt: REDUCE_SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: reducePrompt }],
+        maxTokens: 2600,
+        temperature: 0.2,
+        timeoutMs: 45_000,
+      },
+      RepoSummaryContentSchema,
+    );
+
+    summary.mermaidDiagram = summary.mermaidDiagram
+      .replace(/^```(?:mermaid)?\s*/i, '')
+      .replace(/```\s*$/i, '')
+      .trim();
+
+    return summary;
+  } catch (err) {
+    logger.warn({ err, repoFullName }, 'LLM reduce failed, using deterministic architecture summary fallback');
+    return buildDeterministicSummary(repoFullName, allFiles, keyFiles);
+  }
+}
+
+function buildDeterministicSummary(
+  repoFullName: string,
+  allFiles: RepoTextFile[],
+  keyFiles: RepoTextFile[],
+): RepoSummaryContent {
+  const exts = new Set(
+    allFiles
+      .map((f) => f.path.split('.').pop()?.toLowerCase())
+      .filter((e): e is string => Boolean(e && e.length <= 6)),
   );
 
-  summary.mermaidDiagram = summary.mermaidDiagram
-    .replace(/^```(?:mermaid)?\s*/i, '')
-    .replace(/```\s*$/i, '')
-    .trim();
+  const techStack: string[] = [];
+  if (exts.has('ts') || exts.has('tsx')) techStack.push('TypeScript');
+  if (exts.has('js') || exts.has('jsx')) techStack.push('JavaScript');
+  if (exts.has('py')) techStack.push('Python');
+  if (exts.has('go')) techStack.push('Go');
+  if (allFiles.some((f) => f.path.endsWith('package.json'))) techStack.push('Node.js / npm');
+  if (allFiles.some((f) => f.path.toLowerCase().includes('dockerfile'))) techStack.push('Docker');
+  if (techStack.length === 0) techStack.push('Source Repository');
 
-  return summary;
+  const topDirs = Array.from(
+    new Set(
+      allFiles
+        .map((f) => (f.path.includes('/') ? f.path.split('/')[0]! : '/'))
+        .slice(0, 12),
+    ),
+  ).slice(0, 8);
+
+  return {
+    overview: `${repoFullName} contains ${allFiles.length} analyzed text files across ${topDirs.length} top-level area(s). Generated via static repository structure analysis.`,
+    techStack,
+    folderStructure: topDirs.map((dir) => ({
+      path: dir,
+      purpose: dir === '/' ? 'Root configuration and entry files' : `Modules and assets under ${dir}/`,
+    })),
+    requestFlow:
+      'Entry modules initialize configuration and route requests through application controllers and shared utilities.',
+    apiRoutes: [],
+    dataModels: [],
+    authApproach: 'Configured via environment variables and application middleware.',
+    securityNotes: [
+      'Review Findings and Dependencies tabs for detected secrets, unsafe patterns, and CVEs.',
+    ],
+    keyFiles: keyFiles.slice(0, 10).map((f) => ({
+      path: f.path,
+      role: 'Key repository module',
+    })),
+    mermaidDiagram: [
+      'flowchart TD',
+      '  Client[Client / Caller] --> Entry[Repository Entry]',
+      '  Entry --> Core[Core Modules]',
+      '  Core --> Data[Config & Storage]',
+    ].join('\n'),
+    setupInstructions: [
+      'Clone the repository and install dependencies.',
+      'Configure required environment variables from .env.example (if present).',
+      'Start the application using the project package scripts.',
+    ],
+  };
 }
