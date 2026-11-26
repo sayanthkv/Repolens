@@ -302,11 +302,47 @@ const REDUCE_SYSTEM_PROMPT = [
   '  "setupInstructions": string[]',
   '}',
   'Rules:',
+  '- Write a detailed, informative "overview" (2 short paragraphs, 5-8 sentences total) clearly explaining: (1) what the project is and its purpose, (2) what the project does and its core features/workflows, and (3) how the frontend, backend, and data layers fit together.',
   '- Be thorough, well-structured, and specific to THIS repository.',
   '- Include ALL detected API endpoints in "apiRoutes" with clear purpose descriptions.',
   '- Do NOT invent routes, models, or frameworks that are not evidenced in the provided file summaries.',
   '- "mermaidDiagram" must be valid Mermaid flowchart syntax starting with "flowchart TD" using simple alphanumeric node IDs (e.g. Client[Browser] --> API[Express API]) reflecting THIS repository architecture, with no markdown code fences.',
 ].join('\n');
+
+function extractProjectDescription(allFiles: RepoTextFile[]): {
+  pkgDescription: string | null;
+  readmeExcerpt: string | null;
+} {
+  let pkgDescription: string | null = null;
+  const rootPkg = allFiles.find((f) => f.path === 'package.json');
+  if (rootPkg) {
+    try {
+      const parsed = JSON.parse(rootPkg.content) as { description?: string };
+      if (typeof parsed.description === 'string' && parsed.description.trim()) {
+        pkgDescription = parsed.description.trim();
+      }
+    } catch {
+      // ignore invalid JSON
+    }
+  }
+
+  const readme = allFiles.find((f) => /^readme(?:\.md|\.txt)?$/i.test(f.path));
+  let readmeExcerpt: string | null = null;
+  if (readme) {
+    const cleaned = readme.content
+      .replace(/^#.*$/gm, '')
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (cleaned.length > 20) {
+      readmeExcerpt = cleaned.slice(0, 750);
+    }
+  }
+
+  return { pkgDescription, readmeExcerpt };
+}
 
 export async function generateRepoSummary(
   repoFullName: string,
@@ -318,6 +354,7 @@ export async function generateRepoSummary(
   const detectedRoutes = extractApiRoutes(allFiles);
   const detectedModels = extractDataModels(allFiles);
   const detectedStack = extractTechStack(allFiles);
+  const { pkgDescription, readmeExcerpt } = extractProjectDescription(allFiles);
 
   const mappedSummaries: Array<{ path: string; role: string; summary: string }> = [];
   const FILES_PER_LLM_CALL = 8;
@@ -357,6 +394,8 @@ export async function generateRepoSummary(
   const reducePrompt = [
     `Repository: ${repoFullName}`,
     `Total text files scanned: ${allFiles.length}`,
+    pkgDescription ? `Package description: ${pkgDescription}` : '',
+    readmeExcerpt ? `README overview excerpt:\n${readmeExcerpt}` : '',
     `Detected tech stack: ${detectedStack.join(', ')}`,
     detectedRoutes.length > 0
       ? `Detected API endpoints:\n${detectedRoutes.map((r) => `- ${r.method} ${r.path} (${r.purpose})`).join('\n')}`
@@ -440,8 +479,42 @@ function buildDeterministicSummary(
     );
   }
 
+  const { pkgDescription, readmeExcerpt } = extractProjectDescription(allFiles);
+  const pageFiles = allFiles
+    .filter((f) => /\/(pages|app|views)\//i.test(f.path))
+    .map((f) => f.path.split('/').pop()?.replace(/\.(tsx|ts|jsx|js)$/, '') ?? '')
+    .filter(Boolean)
+    .slice(0, 8);
+
+  const overviewParts: string[] = [];
+  if (pkgDescription) {
+    overviewParts.push(`${repoFullName} — ${pkgDescription}`);
+  } else {
+    overviewParts.push(
+      `${repoFullName} is a ${techStack.join(', ')} software project spanning ${allFiles.length} analyzed source and configuration files.`,
+    );
+  }
+  if (readmeExcerpt) {
+    overviewParts.push(readmeExcerpt);
+  }
+  const capabilityBits: string[] = [];
+  if (pageFiles.length > 0) {
+    capabilityBits.push(`provides user-facing views including ${pageFiles.join(', ')}`);
+  }
+  if (apiRoutes.length > 0) {
+    capabilityBits.push(
+      `exposes ${apiRoutes.length} API endpoint(s) (such as ${apiRoutes.slice(0, 4).map((r) => `${r.method} ${r.path}`).join(', ')})`,
+    );
+  }
+  if (dataModels.length > 0) {
+    capabilityBits.push(`persists structured data models (${dataModels.map((m) => m.name).join(', ')})`);
+  }
+  if (capabilityBits.length > 0) {
+    overviewParts.push(`At runtime, the application ${capabilityBits.join(', and ')}.`);
+  }
+
   return {
-    overview: `${repoFullName} is built with ${techStack.join(', ')} across ${allFiles.length} analyzed files, exposing ${apiRoutes.length} detected API endpoint(s) and ${dataModels.length} data model(s).`,
+    overview: overviewParts.join('\n\n'),
     techStack,
     folderStructure: topDirs.map((dir) => ({
       path: dir,
