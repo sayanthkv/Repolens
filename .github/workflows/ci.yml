@@ -24,10 +24,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Build Shared Workspace
+        run: npm run build --workspace=@repolens/shared
+
       - name: Run Test Suite
         run: npm run test
         env:
           NODE_ENV: test
+          CLIENT_URL: http://localhost:3000
           MONGODB_URI: mongodb://localhost:27017/test
           GITHUB_CLIENT_ID: test_id
           GITHUB_CLIENT_SECRET: test_secret
@@ -36,7 +40,7 @@ jobs:
           TOKEN_ENCRYPTION_KEY: RE5mhsCNc2bqNJPG3X3B79RmS5iG9rbdOpDeWqe7iXI=
           WEBHOOK_BASE_URL: http://localhost:4000
           LLM_API_KEY: test_key
-          LLM_MODEL: gemini-3.8-flash
+          LLM_MODEL: gemini-2.5-flash
 
       - name: Build All Workspaces
         run: npm run build
