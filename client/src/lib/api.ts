@@ -1,7 +1,9 @@
-export const API_BASE_URL =
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) ||
+export const API_BASE_URL = (
+  (typeof import.meta !== 'undefined' &&
+    (import.meta.env?.VITE_API_BASE_URL || import.meta.env?.VITE_API_URL)) ||
   (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_API_BASE_URL) ||
-  'http://localhost:4000';
+  'http://localhost:4000'
+).replace(/\/+$/, '');
 
 export function getCsrfToken(): string | null {
   if (typeof document === 'undefined') return null;
