@@ -15,7 +15,7 @@ export const CODE_PATTERN_RULES: CodePatternRule[] = [
     id: 'PAT-EVAL',
     title: 'Dynamic Code Execution via eval() or new Function()',
     severity: 'high',
-    pattern: /\b(?:eval\s*\(|new\s+Function\s*\()/,
+    pattern: /(?<![.\w$])(?:eval\s*\(|new\s+Function\s*\()/,
     description:
       'Executing strings as JavaScript via eval() or new Function() enables arbitrary code execution if any input can be influenced by a user.',
   },
@@ -106,6 +106,16 @@ export function scanFileForPatterns(filePath: string, content: string): RawFindi
     }
 
     lines.forEach((line, idx) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('//') || trimmed.startsWith('/*') || trimmed.startsWith('*')) {
+        return;
+      }
+      if (rule.id === 'PAT-CMD-INJECTION' && /(?:Re|Regex|Pattern|\/[gimsuy]*)\s*\.\s*exec\s*\(/i.test(line)) {
+        return;
+      }
+      if (rule.id === 'PAT-DANGEROUS-HTML' && /(?:DOMPurify\.sanitize|sanitizeHtml)\s*\(/i.test(line)) {
+        return;
+      }
       if (rule.pattern.test(line)) {
         findings.push({
           type: 'code_pattern',

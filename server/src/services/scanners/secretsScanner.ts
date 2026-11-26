@@ -94,6 +94,61 @@ const PLACEHOLDER_HINTS = [
   'xxxx',
 ];
 
+const BENIGN_VAR_NAMES = new Set([
+  'cachekey',
+  'cellkey',
+  'rowkey',
+  'colkey',
+  'columnkey',
+  'sortkey',
+  'querykey',
+  'storagekey',
+  'localstoragekey',
+  'sessionstoragekey',
+  'primarykey',
+  'foreignkey',
+  'partitionkey',
+  'routingkey',
+  'reactkey',
+  'keyname',
+  'keypath',
+  'keyprefix',
+  'tokenendpoint',
+  'tokenurl',
+  'passwordfield',
+  'passwordhint',
+  'passwordlabel',
+  'passwordplaceholder',
+  'secretname',
+  'secretpath',
+]);
+
+function isCommentLine(line: string): boolean {
+  const trimmed = line.trim();
+  return (
+    trimmed.startsWith('//') ||
+    trimmed.startsWith('/*') ||
+    trimmed.startsWith('*') ||
+    trimmed.startsWith('#')
+  );
+}
+
+function isLikelyBenignString(candidate: string): boolean {
+  const lower = candidate.toLowerCase();
+  if (PLACEHOLDER_HINTS.some((hint) => lower.includes(hint))) return true;
+  if (
+    /\$\{[^}]+\}/.test(candidate) ||
+    /\{\{[^}]+\}\}/.test(candidate) ||
+    /<[^>]+>/.test(candidate)
+  ) {
+    return true;
+  }
+  if (/^https?:\/\//i.test(candidate) || candidate.startsWith('/api/')) return true;
+  // Plain lowercase/snake_case/kebab-case/colon-delimited identifier (not a random secret)
+  if (/^[a-z0-9_.:/-]+$/.test(candidate) && !/\d{4,}/.test(candidate)) return true;
+  return false;
+}
+
 export function isPlaceholderPassword(pass: string): boolean {
   if (!pass) return true;
   const trimmed = pass.trim();
@@ -247,10 +302,22 @@ export function scanFileForSecrets(filePath: string, content: string): RawFindin
     });
   }
 
+  const lower = filePath.toLowerCase();
+  if (
+    lower.includes('.test.') ||
+    lower.includes('.spec.') ||
+    lower.includes('__tests__') ||
+    lower.includes('__mocks__') ||
+    lower.endsWith('.md')
+  ) {
+    return [];
+  }
+
   const lines = content.split(/\r?\n/);
 
   lines.forEach((line, idx) => {
     const lineNumber = idx + 1;
+    if (isCommentLine(line)) return;
     let matchedRuleOnLine = false;
 
     for (const rule of SECRET_RULES) {
@@ -291,10 +358,13 @@ export function scanFileForSecrets(filePath: string, content: string): RawFindin
       if (entropyMatch && entropyMatch[1] && entropyMatch[2]) {
         const varName = entropyMatch[1];
         const candidate = entropyMatch[2];
-        const lower = candidate.toLowerCase();
-        const isPlaceholder = PLACEHOLDER_HINTS.some((hint) => lower.includes(hint));
+        const varLower = varName.toLowerCase();
 
-        if (!isPlaceholder && calculateShannonEntropy(candidate) >= 3.6) {
+        if (
+          !BENIGN_VAR_NAMES.has(varLower) &&
+          !isLikelyBenignString(candidate) &&
+          calculateShannonEntropy(candidate) >= 3.9
+        ) {
           findings.push({
             type: 'secret',
             severity: 'high',
