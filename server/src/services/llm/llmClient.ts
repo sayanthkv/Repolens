@@ -13,6 +13,7 @@ export interface LlmGenerateOptions {
   maxTokens?: number;
   temperature?: number;
   timeoutMs?: number;
+  jsonMode?: boolean;
 }
 
 export interface LlmClient {
@@ -121,6 +122,7 @@ async function callGeminiSingleModel(
         generationConfig: {
           maxOutputTokens: options.maxTokens ?? 1024,
           temperature: options.temperature ?? 0.2,
+          ...(options.jsonMode ? { responseMimeType: 'application/json' } : {}),
         },
       }),
     });
@@ -228,7 +230,7 @@ export const llmClient: LlmClient = {
   },
 
   async generateJson<T>(options: LlmGenerateOptions, schema: z.ZodType<T>): Promise<T> {
-    const raw = await this.generateText(options);
+    const raw = await this.generateText({ ...options, jsonMode: true });
     const jsonText = extractJsonBlock(raw);
     const parsed = JSON.parse(jsonText) as unknown;
     return schema.parse(parsed);
